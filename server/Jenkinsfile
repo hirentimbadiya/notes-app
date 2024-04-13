@@ -1,6 +1,14 @@
 pipeline {
     agent any
     stages {
+        stage('Git Checkout') {
+            steps {
+                script {
+                    checkout scmGit(branches: [[name: '*/main']], extensions: [], gitTool: 'Default', userRemoteConfigs: [[credentialsId: 'notes-github', url: 'git@github.com:hirentimbadiya/notes-devops.git']])
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
@@ -31,11 +39,15 @@ pipeline {
             }
         }
 
-        stage("Get the Image Digest") {
+        stage("Deploy To Kubernetes") {
             steps {
                 script {
-                    dockerImageWithDigest = bat(script: "docker image inspect --format='{{index .RepoDigests 0}}' hirentimbadiya/notes-backend")
-                    bat "echo ${dockerImageWithDigest}"
+                    withKubeConfig(caCertificate: '', clusterName: 'gke_gcp-learning-417116_us-central1-c_main-cluster', contextName: '', credentialsId: 'k8s-cred', namespace: 'jenkins', restrictKubeConfigAccess: true, serverUrl: 'https://35.226.254.176') {
+                        bat """
+                        cd server
+                        kubectl apply -f deployment.yaml
+                        """
+                    }
                 }
             }
         }
