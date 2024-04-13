@@ -5,8 +5,8 @@ pipeline {
             steps {
                 script {
                     bat """
-                    cd server
-                    docker build -t hirentimbadiya/notes-backend .
+                    cd client
+                    docker build -t hirentimbadiya/notes-frontend .
                     """
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
         stage("Push Image To DockerHub") {
             steps {
                 script {
-                    bat 'docker push hirentimbadiya/notes-backend'
+                    bat 'docker push hirentimbadiya/notes-frontend'
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
                 script {
                     withKubeConfig(caCertificate: '', clusterName: 'gke_gcp-learning-417116_us-central1-c_main-cluster', contextName: '', credentialsId: 'k8s-cred', namespace: 'jenkins', restrictKubeConfigAccess: true, serverUrl: 'https://35.226.254.176') {
                         bat """
-                        cd server
+                        cd client
                         kubectl apply -f deployment.yaml
                         """
                     }
