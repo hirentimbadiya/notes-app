@@ -4,7 +4,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat 'docker build -t hirentimbadiya/notes-backend .'
+                    bat """
+                    cd server
+                    docker build -t hirentimbadiya/notes-backend .
+                    """
                 }
             }
         }
