@@ -1,9 +1,39 @@
 pipeline {
     agent any
     stages {
-        stage('Hello World') {
+        stage('Build Docker Image') {
             steps {
-                echo "Hello World"
+                script {
+                    bat 'docker build -t hirentimbadiya/notes-backend .'
+                }
+            }
+        }
+
+        stage('Login To DockerHub') {
+            steps {
+                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub_password')]) {
+                    bat """
+                    docker logout
+                    docker login -u hirentimbadiya -p ${dockerhub_password}
+                    """
+                }
+            }
+        }
+
+        stage("Push Image To DockerHub") {
+            steps {
+                script {
+                    bat 'docker push hirentimbadiya/notes-backend'
+                }
+            }
+        }
+
+        stage("Get the Image Digest") {
+            steps {
+                script {
+                    dockerImageDigest = bat(script: "docker image inspect --format='{{index .RepoDigests 0}}' hirentimbadiya/notes-backend | awk -F@ '{print \$2}'", returnStdout: true).trim()
+                    bat "echo ${dockerImageDigest}"
+                }
             }
         }
     }
