@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: notes-backend
+spec:
+  type: LoadBalancer
+  selector:
+    app: notes-backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3001
