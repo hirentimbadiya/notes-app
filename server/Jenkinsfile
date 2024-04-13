@@ -34,8 +34,8 @@ pipeline {
         stage("Get the Image Digest") {
             steps {
                 script {
-                    dockerImageDigest = bat(script: "docker image inspect --format='{{index .RepoDigests 0}}' hirentimbadiya/notes-backend | awk -F@ '{print \$2}'", returnStdout: true).trim()
-                    bat "echo ${dockerImageDigest}"
+                    dockerImageWithDigest = bat(script: "docker image inspect --format='{{index .RepoDigests 0}}' hirentimbadiya/notes-backend")
+                    bat "echo ${dockerImageWithDigest}"
                 }
             }
         }
