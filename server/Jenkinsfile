@@ -1,6 +1,15 @@
 pipeline {
     agent any
     stages {
+        stage('SonarQube Code Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') {
+                        bat "sonar-scanner -Dsonar.projectKey=inotebook -Dsonar.projectName=inotebook -Dsonar.sources=." 
+                    }
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
