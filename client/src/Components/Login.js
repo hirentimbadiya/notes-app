@@ -9,21 +9,25 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`${host}/api/auth/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email: credentials.email, password: credentials.password })
-        });
-        const json = await response.json()
-        if (json.success) {
-            localStorage.setItem('token', json.authToken);
-            navigate("/home")
-            props.showAlert("Logged In successfully", "success")
-        }
-        else {
-            props.showAlert("Invalid credentials", "danger")
+        try {
+            const response = await fetch(`${host}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: credentials.email, password: credentials.password })
+            });
+            const json = await response.json()
+            if (json.success) {
+                localStorage.setItem('token', json.authToken);
+                navigate("/home")
+                props.showAlert("Logged In successfully", "success")
+            }
+            else {
+                props.showAlert("Invalid credentials", "danger")
+            }
+        } catch (error) {
+            console.log(error.message);
         }
     }
 

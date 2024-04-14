@@ -9,21 +9,25 @@ const Signup = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch(`${host}/api/auth/createUser`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password })
-        });
-        const json = await response.json()
-        if (json.success) {
-            localStorage.setItem('token', json.authToken);
-            navigate("/home")
-            props.showAlert("Account created successfully", "Success")
-        }
-        else {
-            props.showAlert("Invalid Credentials", "Error")
+        try {
+            const response = await fetch(`${host}/api/auth/createUser`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password })
+            });
+            const json = await response.json()
+            if (json.success) {
+                localStorage.setItem('token', json.authToken);
+                navigate("/home")
+                props.showAlert("Account created successfully", "Success")
+            }
+            else {
+                props.showAlert("Invalid Credentials", "Error")
+            }
+        } catch (error) {
+            console.log(error.message);
         }
     }
 
