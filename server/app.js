@@ -10,7 +10,7 @@ const app = express();
 // CORS options
 const corsOptions = {
   credentials: true,
-  origin: ['https://inote.hirentimbadiya.me', 'http://localhost:3001']
+  origin: ['https://inote.hirentimbadiya.me', 'http://localhost:3000']
 };
 app.use(cors(corsOptions));
 app.use(express.json());
