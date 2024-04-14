@@ -8,8 +8,11 @@ dotenv.config();
 const app = express();
 
 const mongoURI = process.env.MONGODB_URI;
+mongoose.set("strictQuery", false);
 mongoose.connect(mongoURI).then(() => {
   console.log("Database Connected!");
+}).catch((error) => {
+  console.log("Error connecting to database: ", error);
 });
 
 app.use(
