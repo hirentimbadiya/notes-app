@@ -7,6 +7,14 @@ dotenv.config();
 
 const app = express();
 
+// CORS options
+const corsOptions = {
+  credentials: true,
+  origin: ['https://inote.hirentimbadiya.me/', 'http://localhost:3001']
+};
+app.use(cors(corsOptions));
+app.use(express.json());
+
 const mongoURI = process.env.MONGODB_URI;
 mongoose.set("strictQuery", false);
 mongoose.connect(mongoURI).then(() => {
@@ -29,8 +37,6 @@ app.get('/', (req, res) => {
   res.send('Server is Up and Running!')
 });
 
-app.use(cors());
-app.use(express.json());
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/notes', require('./routes/notes'));
