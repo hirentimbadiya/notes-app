@@ -13,6 +13,7 @@ const corsOptions = {
   origin: ['https://inote.hirentimbadiya.me', 'http://localhost:3000']
 };
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 app.use(express.json());
 
 const mongoURI = process.env.MONGODB_URI;
