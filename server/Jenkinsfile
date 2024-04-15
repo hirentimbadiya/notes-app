@@ -8,8 +8,10 @@ pipeline {
     }
     stages {
         stage('Scanning, Building and Deploying') {
-            script {
-                pipeline_server(imageName: IMAGE_NAME, releaseName: RELEASE_NAME, installationName: SONAR_INSTALLATION_NAME)
+            steps {
+                script {
+                    pipeline_server(imageName: IMAGE_NAME, releaseName: RELEASE_NAME, installationName: SONAR_INSTALLATION_NAME)
+                }
             }
         }
     }
