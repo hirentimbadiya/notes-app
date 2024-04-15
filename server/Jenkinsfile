@@ -5,7 +5,10 @@ pipeline {
             steps {
                 script {
                     withSonarQubeEnv('SonarQube') {
-                        bat "sonar-scanner -Dsonar.projectKey=inotebook -Dsonar.projectName=inotebook -Dsonar.sources=." 
+                        bat """
+                        cd server
+                        sonar-scanner -Dsonar.projectKey=inotebook-backend -Dsonar.projectName=inotebook-backend -Dsonar.sources=.
+                        """ 
                     }
                 }
             }
@@ -20,7 +23,6 @@ pipeline {
                 }
             }
         }
-
         stage('Login To DockerHub') {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub_password')]) {
@@ -31,7 +33,6 @@ pipeline {
                 }
             }
         }
-
         stage("Push Image To DockerHub") {
             steps {
                 script {
@@ -39,7 +40,6 @@ pipeline {
                 }
             }
         }
-
         stage("Deploy To Kubernetes") {
             steps {
                 script {

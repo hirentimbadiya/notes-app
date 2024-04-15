@@ -1,6 +1,18 @@
 pipeline {
     agent any
     stages {
+        stage('SonarQube Code Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv('SonarQube') {
+                        bat """
+                        cd client
+                        sonar-scanner -Dsonar.projectKey=inotebook-frontend -Dsonar.projectName=inotebook-frontend -Dsonar.sources=.
+                        """ 
+                    }
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
@@ -11,7 +23,6 @@ pipeline {
                 }
             }
         }
-
         stage('Login To DockerHub') {
             steps {
                 withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub_password')]) {
@@ -22,7 +33,6 @@ pipeline {
                 }
             }
         }
-
         stage("Push Image To DockerHub") {
             steps {
                 script {
@@ -30,7 +40,6 @@ pipeline {
                 }
             }
         }
-
         stage("Deploy To Kubernetes") {
             steps {
                 script {
