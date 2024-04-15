@@ -1,55 +1,15 @@
+@Library('notesapp-devops') _
 pipeline {
     agent any
+    environment {
+        RELEASE_NAME = "notes-backend"
+        IMAGE_NAME = "hirentimbadiya/notes-backend"
+        SONAR_INSTALLATION_NAME = "SonarQube"
+    }
     stages {
-        stage('SonarQube Code Analysis') {
-            steps {
-                script {
-                    withSonarQubeEnv('SonarQube') {
-                        bat """
-                        cd server
-                        sonar-scanner -Dsonar.projectKey=inotebook-backend -Dsonar.projectName=inotebook-backend -Dsonar.sources=.
-                        """ 
-                    }
-                }
-            }
-        }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    bat """
-                    cd server
-                    docker build -t hirentimbadiya/notes-backend .
-                    """
-                }
-            }
-        }
-        stage('Login To DockerHub') {
-            steps {
-                withCredentials([string(credentialsId: 'dockerhub', variable: 'dockerhub_password')]) {
-                    bat """
-                    docker logout
-                    docker login -u hirentimbadiya -p ${dockerhub_password}
-                    """
-                }
-            }
-        }
-        stage("Push Image To DockerHub") {
-            steps {
-                script {
-                    bat 'docker push hirentimbadiya/notes-backend'
-                }
-            }
-        }
-        stage("Deploy To Kubernetes") {
-            steps {
-                script {
-                    withKubeConfig(caCertificate: '', clusterName: 'gke_gcp-learning-417116_us-central1-c_main-cluster', contextName: '', credentialsId: 'k8s-cred', namespace: 'jenkins', restrictKubeConfigAccess: true, serverUrl: 'https://35.226.254.176') {
-                        bat """
-                        cd server
-                        kubectl apply -f deployment.yaml
-                        """
-                    }
-                }
+        stage('Scanning, Building and Deploying') {
+            script {
+                pipeline_server(imageName: IMAGE_NAME, releaseName: RELEASE_NAME, installationName: SONAR_INSTALLATION_NAME)
             }
         }
     }
