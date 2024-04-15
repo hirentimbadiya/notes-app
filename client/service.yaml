@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: notes-frontend
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: notes-frontend
   ports:
