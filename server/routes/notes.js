@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-var fetchuser = require('../middleware/fetchuser')
+const fetchuser = require('../middleware/fetchuser')
 const Notes = require('../models/Notes');
 const { body, validationResult } = require('express-validator');
 
@@ -100,7 +100,7 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
         };
 
         // If above two constions are not met then update the note
-        note = await Notes.findByIdAndDelete(req.params.id)
+        await Notes.findByIdAndDelete(req.params.id)
         res.json({ "Sucess": "Note has been deleted" });
     }
     catch (error) {
@@ -108,7 +108,5 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
         res.send(error);
     }
 });
-
-
 
 module.exports = router;

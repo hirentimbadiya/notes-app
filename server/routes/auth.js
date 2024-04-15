@@ -2,9 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
-var bcrypt = require("bcryptjs");
-var jwt = require("jsonwebtoken");
-var fetchuser = require('../middleware/fetchuser')
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = "Asecretstring";
 
@@ -31,12 +30,11 @@ router.post(
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
-        success = false;
         return res.status(400).json({ error: "User Already exists" });
       }
 
       const salt = await bcrypt.genSalt(10);
-      secPass = await bcrypt.hash(req.body.password, salt);
+      const secPass = await bcrypt.hash(req.body.password, salt);
       user = await User.create({
         name: req.body.name,
         email: req.body.email,
@@ -78,17 +76,15 @@ router.post(
     try {
       let user = await User.findOne({ email });
       if (!user) {
-        success = false;
         return res
           .status(400)
-          .json({ error: "Please try to login with correct credentials" });
+          .json({ error: "Please try to login with correct email" });
       }
       const passCompare = await bcrypt.compare(password, user.password);
       if (!passCompare) {
-        success = false;
         return res
           .status(400)
-          .json({ error: "Please try to login with correct credentials" });
+          .json({ error: "Please try to login with correct password" });
       }
       const payload = {
         user: {
@@ -110,7 +106,7 @@ router.post(
   "/getuser", async (req, res) => {
     try {
       // accessing the id which we stored in fetchuser file
-      userId = req.id;
+      const userId = req.id;
       const user = await User.findById(userId).select("-password");
       res.send({ user });
     }
