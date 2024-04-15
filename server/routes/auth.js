@@ -12,11 +12,8 @@ const JWT_SECRET = "Asecretstring";
 router.post(
   "/createUser",
   [
-    // name minimum length of 3
     body("name", "Name must be 3 chars long").isLength({ min: 3 }),
-    // username must be an email
     body("email", "Enter valid Email").isEmail(),
-    // password must be at least 5 chars long
     body("password", "Password must be 6 chars long").isLength({ min: 6 }),
   ],
   async (req, res) => {
@@ -29,7 +26,8 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Even if there is not any error by client side but if some error occurs at server side for that this try catch block is used.
+    // Even if there is not any error by client side but if some error occurs at 
+    // server side for that this try catch block is used.
     try {
       let user = await User.findOne({ email: req.body.email });
       if (user) {
@@ -52,8 +50,7 @@ router.post(
       };
       const authToken = jwt.sign(data, JWT_SECRET);
       success = true;
-      console.log(data);
-      res.json(authToken);
+      res.status(200).json({ success, authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error occurred");
@@ -65,9 +62,7 @@ router.post(
 router.post(
   "/login",
   [
-    // username must be an email
     body("email", "Enter valid Email").isEmail(),
-    // password must be at least 5 chars long
     body("password", "Password cannot be blank").exists(),
   ],
 
@@ -101,8 +96,8 @@ router.post(
         },
       };
       const authToken = jwt.sign(payload, JWT_SECRET);
-      success= true;
-      res.send({success, authToken});
+      success = true;
+      res.status(200).send({ success, authToken });
     } catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error occurred");
@@ -113,13 +108,13 @@ router.post(
 // Get logged in user details using POST "api/auth/getuser"
 router.post(
   "/getuser", async (req, res) => {
-    try{
+    try {
       // accessing the id which we stored in fetchuser file
       userId = req.id;
       const user = await User.findById(userId).select("-password");
-      res.send({user});
+      res.send({ user });
     }
-    catch(error){
+    catch (error) {
       console.error(error.message);
       res.status(500).send("Internal server error occurred");
     }

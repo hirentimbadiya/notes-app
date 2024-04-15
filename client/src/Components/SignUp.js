@@ -17,14 +17,14 @@ const Signup = (props) => {
                 },
                 body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password })
             });
-            const json = await response.json()
+            const json = await response.json();
             if (json.success) {
                 localStorage.setItem('token', json.authToken);
-                navigate("/home")
-                props.showAlert("Account created successfully", "Success")
+                navigate("/home");
+                props.showAlert("Account created successfully", "Success");
             }
             else {
-                props.showAlert("Invalid Credentials", "Error")
+                props.showAlert("Invalid Credentials", "Error");
             }
         } catch (error) {
             console.log(error.message);

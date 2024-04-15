@@ -4,9 +4,6 @@ import { useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   let location = useLocation();
-  useEffect(() => {
-    console.log(location);
-  }, [location]);
 
   const Logout = () => {
     localStorage.clear();
