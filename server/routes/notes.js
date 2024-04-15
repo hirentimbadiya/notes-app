@@ -9,7 +9,7 @@ const { body, validationResult } = require('express-validator');
 router.get("/fetchallnotes", fetchuser, async (req, res) => {
     try {
         const notes = await Notes.find({ user: req.user.id });
-        res.json(notes)
+        res.status(200).json(notes)
     }
     catch (error) {
         console.error(error.message);
@@ -40,7 +40,7 @@ router.post("/addnote", fetchuser, [
 
         const savedNote = await note.save();
 
-        res.json(savedNote);
+        res.status(201).json(savedNote);
     }
     catch (error) {
         console.error(error.message);
@@ -78,7 +78,7 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
 
         // If above two constions are not met then update the note
         note = await Notes.findByIdAndUpdate(req.params.id, { $set: newNote }, { new: true })
-        res.json({ note });
+        res.status(200).json({ note });
     }
     catch (error) {
         console.error(error.message);
@@ -101,7 +101,7 @@ router.delete("/deletenote/:id", fetchuser, async (req, res) => {
 
         // If above two constions are not met then update the note
         await Notes.findByIdAndDelete(req.params.id)
-        res.json({ "Sucess": "Note has been deleted" });
+        res.status(200).json({ "Sucess": "Note has been deleted" });
     }
     catch (error) {
         console.error(error.message);

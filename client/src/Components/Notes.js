@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import noteContext from "../context/notes/NoteContext";
-import { useContext, useEffect, useState, useRef } from 'react'
 import Noteitem from "./Noteitem";
 import AddNote from "./AddNote";
 import { useNavigate } from "react-router-dom";
 
 const Notes = (props) => {
   const context = useContext(noteContext);
-  const { notes, getNotes, editNote } = context;
+  const { memoizedNotes, getNotes, editNote } = context;
   let navigate = useNavigate();
   useEffect(() => {
     if (localStorage.getItem("token")) {
-      getNotes()
+      getNotes();
     }
     else {
       navigate('/login');
@@ -76,9 +75,9 @@ const Notes = (props) => {
       <div className="row">
         <h3 className="mt-4">Your Notes</h3>
         <div className="container">
-          {notes.length === 0 && "No Notes to display"}
+          {memoizedNotes.length === 0 && "No Notes to display"}
         </div>
-        {notes.map((note) => {
+        {memoizedNotes.map((note) => {
           return <Noteitem key={note._id} note={note} updateNote={updateNote}></Noteitem>;
         })}
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import NoteContext from "./NoteContext";
 
 const NoteState = (props) => {
@@ -6,6 +6,8 @@ const NoteState = (props) => {
 
   const notesInitial = []
   const [notes, setNotes] = useState(notesInitial)
+
+  const memoizedNotes = useMemo(() => notes, [notes]);
 
   const getNotes = async () => {
     try {
@@ -16,10 +18,13 @@ const NoteState = (props) => {
           "auth-token": localStorage.getItem("token")
         }
       });
+
+      if (response.status !== 200) throw new Error("Failed to Fetch the Notes!");
+
       const json = await response.json()
       setNotes(json)
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   }
 
@@ -33,11 +38,13 @@ const NoteState = (props) => {
         },
         body: JSON.stringify({ title, description, tag })
       });
-  
+
+      if (response.status !== 201) throw new Error("Failed to Add the Note!");
+
       const note = await response.json();
       setNotes(notes.concat(note))
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   }
 
@@ -50,11 +57,13 @@ const NoteState = (props) => {
           "auth-token": localStorage.getItem("token")
         },
       });
-  
-      const newNotes = notes.filter((note) => { return note._id !== id })
-      setNotes(newNotes)
+
+      if (response.status !== 200) throw new Error("Failed to Delete the Note!");
+
+      const newNotes = notes.filter((note) => { return note._id !== id });
+      setNotes(newNotes);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   }
 
@@ -68,24 +77,26 @@ const NoteState = (props) => {
         },
         body: JSON.stringify({ title, description, tag })
       });
-  
+
+      if (response.status !== 200) throw new Error("Failed to Update the Note!");
+
       let newNotes = JSON.parse(JSON.stringify(notes))
-      for (let index = 0; index < newNotes.length; index++) {
-        const element = newNotes[index];
-        if (element._id === id) {
-          newNotes[index].title = title;
-          newNotes[index].description = description;
-          newNotes[index].tag = tag;
+
+      for (const note of newNotes) {
+        if (note._id === id) {
+          note.title = title;
+          note.description = description;
+          note.tag = tag;
           break;
         }
       }
       setNotes(newNotes);
     } catch (error) {
-      console.log(error.message);
+      console.error(error.message);
     }
   }
   return (
-    <NoteContext.Provider value={{ notes, addNote, deleteNote, editNote, getNotes }}>
+    <NoteContext.Provider value={{ memoizedNotes, addNote, deleteNote, editNote, getNotes }}>
       {props.children};
     </NoteContext.Provider>
   )
