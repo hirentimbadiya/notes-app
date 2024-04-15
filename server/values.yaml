@@ -1,0 +1,14 @@
+replicaCount: 1
+image:
+  repository: hirentimbadiya/notes-backend
+  pullPolicy: IfNotPresent
+service:
+  name: notes-backend
+  type: NodePort
+  port: 80
+  targetPort: 3001
+secrets:
+  mongo:
+    envName: MONGODB_URI
+    secretName: mongo-secret
+    key: mongo-uri
