@@ -3,9 +3,11 @@ const router = express.Router();
 const User = require("../models/User");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
+const dotenv = require("dotenv");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "Asecretstring";
+dotenv.config({path: '../.env'});
+const JWT_SECRET = process.env.JWT_SECRET;
 
 // Create user using POST request
 router.post(
@@ -16,7 +18,6 @@ router.post(
     body("password", "Password must be 6 chars long").isLength({ min: 6 }),
   ],
   async (req, res) => {
-
     let success = false;
 
     // If there is an error mentioned above then return bad request and error
@@ -25,7 +26,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    // Even if there is not any error by client side but if some error occurs at 
+    // even if there is not any error by client side but if some error occurs at 
     // server side for that this try catch block is used.
     try {
       let user = await User.findOne({ email: req.body.email });

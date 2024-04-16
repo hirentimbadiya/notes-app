@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 
-const JWT_SECRET = "Asecretstring";
+dotenv.config({path: '../.env'});
+const JWT_SECRET = process.env.JWT_SECRET;
 
 const fetchuser = (req, res, next) => {
     // This will call the next function written next to fetchuser when it is called, 

@@ -12,3 +12,7 @@ secrets:
     envName: MONGODB_URI
     secretName: mongo-secret
     key: mongo-uri
+  jwt:
+    envName: JWT_SECRET
+    secretName: jwt-secret
+    key: jwt-secret
