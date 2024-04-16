@@ -9,6 +9,18 @@ const Signup = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (credentials.name.length < 3) {
+            props.showAlert("Name should be atleast 3 characters", "Error");
+            return;
+        }
+        if (credentials.password.length < 6) {
+            props.showAlert("Password length should be atleast 6 characters", "Error");
+            return;
+        }
+        if (credentials.password !== credentials.cpassword) {
+            props.showAlert("Passwords do not match", "Error");
+            return;
+        }
         try {
             const response = await fetch(`${host}/api/auth/createUser`, {
                 method: 'POST',
