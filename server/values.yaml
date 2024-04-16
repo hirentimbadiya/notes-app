@@ -3,7 +3,7 @@ image:
   repository: hirentimbadiya/notes-backend
   pullPolicy: IfNotPresent
 service:
-  name: notes-backend
+  name: notesapp-backend
   type: NodePort
   port: 80
   targetPort: 3001
