@@ -8,6 +8,10 @@ const Login = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (credentials.password.length < 6) {
+            props.showAlert("Password length should be atleast 6 characters", "Error");
+            return;
+        }
         try {
             const response = await fetch(`${host}/api/auth/login`, {
                 method: 'POST',
