@@ -3,7 +3,7 @@ image:
   repository: hirentimbadiya/notes-frontend
   pullPolicy: IfNotPresent
 service:
-  name: notes-frontend
+  name: notesapp-frontend
   type: NodePort
   port: 80
   targetPort: 3000
