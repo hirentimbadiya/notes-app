@@ -5,12 +5,13 @@ pipeline {
         RELEASE_NAME = "notes-backend"
         IMAGE_NAME = "hirentimbadiya/notes-backend"
         SONAR_INSTALLATION_NAME = "SonarQube"
+        SONARQUBE_API_TOKEN = credentials('sonarqube-api-token')
     }
     stages {
         stage('Scanning, Building and Deploying') {
             steps {
                 script {
-                    pipeline_server(imageName: IMAGE_NAME, releaseName: RELEASE_NAME, installationName: SONAR_INSTALLATION_NAME)
+                    pipeline_server(imageName: IMAGE_NAME, releaseName: RELEASE_NAME, installationName: SONAR_INSTALLATION_NAME, sonarQubeApiToken: SONARQUBE_API_TOKEN)
                 }
             }
         }
