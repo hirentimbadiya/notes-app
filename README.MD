@@ -5,14 +5,14 @@
 - [DevOps Resources](https://github.com/hirentimbadiya/notesapp-devops/) (DevOps Resoueces Such As Jenkins Groovy Scripts, Helm Chart Templates and Prometheus Configurations)
 
 ## Description
-- Developed a robust note-taking application from scratch utilizing Express.js for the backend server and React.js for the frontend, ensuring a seamless user experience.
-- Containerized the application using Docker and orchestrated deployment on Google Kubernetes Engine (GKE) leveraging Helm charts, ensuring scalability and reliability.
-- Automated the entire CI/CD process using Jenkins, Groovy script, and Jenkins shared libraries, streamlining development workflows and reducing manual errors.
-- Implemented SonarQube code scanning within the Jenkins pipeline to enforce code quality standards and enhance overall project integrity.
-- Utilized Prometheus as a metrics collector to monitor Kubernetes pods and deployments, enhancing observability and facilitating proactive issue resolution.
-- Visualized Kubernetes metrics through Grafana public dashboard, providing comprehensive insights into system performance and resource utilization.
-- Configured Kubernetes ingress for external access to the application, ensuring seamless user interaction, and integrated HTTPS load balancer with a managed certificate for enhanced security.
-- Implemented horizontal pod autoscaling to dynamically adjust resources based on demand, optimizing application performance and resource utilization.
+- Developed a robust note-taking application from scratch utilizing **Express.js for the backend server and React.js for the frontend**, ensuring a seamless user experience.
+- Containerized the application using Docker and **orchestrated deployment on Google Kubernetes Engine (GKE)** leveraging **Helm** charts, **ensuring scalability and reliability**.
+- Automated the entire CI/CD process using **Jenkins**, **Groovy script**, and Jenkins shared libraries, streamlining development workflows and reducing manual errors.
+- **Implemented SonarQube code scanning** within the Jenkins pipeline to enforce code quality standards and enhance overall project integrity.
+- Utilized **Prometheus as a metrics collector** to monitor Kubernetes pods and deployments, enhancing observability and facilitating proactive issue resolution.
+- Visualized Kubernetes metrics through **Grafana public dashboard**, providing comprehensive insights into system performance and resource utilization.
+- Configured **Kubernetes ingress for external access** to the application, ensuring seamless user interaction, and **integrated HTTPS load balancer** with a **managed certificate** for enhanced security.
+- Implemented **horizontal pod autoscaling** to dynamically adjust resources based on demand, optimizing application performance and resource utilization.
 
 ## Technologies Used
 - React.js
