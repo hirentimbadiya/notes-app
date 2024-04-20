@@ -2,7 +2,7 @@
 
 ## Application Deployment:
 - [INoteBook](https://inote.hirentimbadiya.me/)
-- [DevOps Resources](https://github.com/hirentimbadiya/notesapp-devops/)
+- [DevOps Resources](https://github.com/hirentimbadiya/notesapp-devops/) (DevOps Resoueces Such As Jenkins Groovy Scripts, Helm Chart Templates and Prometheus Configurations)
 
 ## Description
 - Developed a robust note-taking application from scratch utilizing Express.js for the backend server and React.js for the frontend, ensuring a seamless user experience.
