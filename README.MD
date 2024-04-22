@@ -82,6 +82,7 @@ npm run dev
 
 7. Start the client
 ```bash
+cd client
 npm run start
 ```
 
