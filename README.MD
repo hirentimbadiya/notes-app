@@ -91,6 +91,7 @@ npm run start
 ## Author
 ### Hiren Timbadiya
 - [LinkedIn](https://linkedin.com/in/hirentimbadiya74/)
+- [Twitter/X](https://twitter.com/heyhiru/)
 - [GitHub](https://github.com/hirentimbadiya/)
 
 ## License
